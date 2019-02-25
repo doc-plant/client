@@ -44,7 +44,7 @@ class Profile extends Component {
   }
   _signOutAsync = async () => {
     await AsyncStorage.clear();
-    this.props.navigation.navigate('Login');
+    this.props.navigation.navigate('FirstScreen');
   };
 
   render() {

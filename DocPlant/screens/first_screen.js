@@ -23,31 +23,10 @@ const theme = {
   },
 };
 
-class Register extends Component {
+class FirstScreen extends Component {
   static navigationOptions = {
-    title: 'Please sign in !',
+    title: '',
   };
-  googleSignin = async () => {
-    try {
-      const result = await Google.logInAsync({
-        iosClientId: ".",
-        scopes: ['profile', 'email'],
-      });
-
-
-      if (result.type === 'success') {
-        await AsyncStorage.setItem('userAuth', result.user.name);
-        await AsyncStorage.setItem('userphotoUrl', result.user.photoUrl);
-
-        await AsyncStorage.setItem('userToken', result.accessToken);
-        this.props.navigation.navigate('Home')
-      } else {
-        return { cancelled: true };
-      }
-    } catch (e) {
-      return { error: true };
-    }
-  }
 
   render() {
     const { navigation: { navigate } } = this.props
@@ -60,33 +39,24 @@ class Register extends Component {
               source={require('../assets/login_icon_white.png')} />
           </View>
           <View style={style.body}>
-
-            <View style={{width:"85%", color:"#fff", marginBottom:20, padding:10,  borderWidth:0}}>
-              <Item rounded  style={{margin:10, width:"100%",backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft:10,  borderWidth:0}}>
-                <Input placeholder='e-mail' />
-              </Item>
-              <Item rounded style={{ width:"100%" , backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft:10, borderWidth:0}}>
-                <Input  placeholder='password'   />
-              </Item>
-            </View>
-
             <Button bordered light
               style={{
-                width: "84%",
+                width: "60%",
                 alignSelf: "center",
                 justifyContent: 'center',
                 borderRadius: 20,
-              }}>
+              }}
+              onPress={() => this.props.navigation.navigate('Register')}>
               <Text
                 style={{
                   color: "white",
                   fontWeight: 'bold',
                   fontSize: 20,
-                }}>Submit</Text>
+                }}>SIGN UP</Text>
             </Button>
             <Text
               style={{
-                marginTop: 30,
+                marginTop: 20,
                 color: "white",
                 fontWeight: 'bold',
                 fontSize: 16,
@@ -114,7 +84,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({ isLogin }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstScreen)
 
 const style = StyleSheet.create({
   container: {

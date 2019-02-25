@@ -16,7 +16,7 @@ export default class index extends Component {
       this.props.navigation.navigate('App',{user: userAuth});
     }
     else{
-      this.props.navigation.navigate('Login');
+      this.props.navigation.navigate('FirstScreen');
     }
   }
   render() {
