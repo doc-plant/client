@@ -6,7 +6,9 @@ import {
   Text,
   StyleSheet,
   Alert,
-  Image
+  Image,
+  Modal,
+  TouchableHighlight
 } from "react-native";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -25,15 +27,22 @@ class CameraScreen extends Component {
 
   state = {
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back
+    type: Camera.Constants.Type.back,
+    modalVisible: false,
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   takeImage = async () => {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync();
+      this.setModalVisible(true);
       this.props.add_image(photo.uri)
         .then(() => {
           this.props.navigation.navigate('Result')
+          this.setModalVisible(!this.state.modalVisible);
         })
         .catch((error) => {
           Alert.alert(error);
@@ -47,10 +56,12 @@ class CameraScreen extends Component {
       aspect: 1,
       allowsEditing: true,
     });
+    this.setModalVisible(true);
     if (!cancelled) {
       this.props.add_image(uri)
         .then(() => {
           this.props.navigation.navigate('Result')
+          this.setModalVisible(!this.state.modalVisible);
         })
         .catch((error) => {
           Alert.alert(error);
@@ -62,6 +73,7 @@ class CameraScreen extends Component {
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' })
+    this.setState({loading:1})
   }
   render() {
     const { hasCameraPermission } = this.state
@@ -88,7 +100,6 @@ class CameraScreen extends Component {
               </View>
 
               <View style={{ flexDirection: 'row', flex: 2, justifyContent: 'space-around' }}>
-                
                 <Image style={{width: 60, height: 23}}
                   source={require('../assets/login_icon_white.png')} />
                 <Icon
@@ -122,6 +133,30 @@ class CameraScreen extends Component {
               ></MaterialCommunityIcons>
             </View>
           </Camera>
+          <View >
+        <Modal 
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View>
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              marginTop:200
+              }}>
+            <Image style={{width: 120, height: 130, marginTop:30, marginBottom:10, marginLeft:10}} source={{ uri: `https://firebasestorage.googleapis.com/v0/b/docplant-f7bfd.appspot.com/o/icon%2Fupload.gif?alt=media&token=7b164251-926e-4820-a1ee-ce3fe15ae9b8` }}/>
+            <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }} >Uploading</Text>
+            </View>
+          </View>
+        </Modal>
+      </View>
         </View>
       )
     }
