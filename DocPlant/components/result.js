@@ -20,7 +20,7 @@ class Result extends Component {
                     justifyContent: 'center',
                     borderRadius: 10
                 }}>
-                <Text style={{ fontSize: 14, fontWeight: '15', color:"white" }}>{this.props.name}</Text>
+                <Text style={{ fontSize: 14, color:'white' }}>{this.props.name}</Text>
                 </View>
                 <View style={{ zIndex: 1, 
                     width: 140, height: 170,

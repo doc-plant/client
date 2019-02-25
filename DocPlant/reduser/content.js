@@ -1,5 +1,5 @@
 const defaultState = {
-  img: '',
+  data: {}
 }
 
 export default function (state = defaultState, actions) {
@@ -8,7 +8,7 @@ export default function (state = defaultState, actions) {
     case 'ADD_IMAGE':
       return ({
         ...state,
-        img:payload
+        data:payload
       })
       
     default:

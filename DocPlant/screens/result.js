@@ -48,9 +48,11 @@ class Results extends Component {
 
 
   render() {
-    const { navigation: { navigate }, img } = this.props
-    console.log(img);
-    
+    const { navigation: { navigate }, data } = this.props
+    const { history, recommend } = data
+    const { image, labelId } = history
+    const { diseaseId: { name }, fixLabel } = labelId
+
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -58,15 +60,15 @@ class Results extends Component {
             <View style={{ flex: 1, backgroundColor: 'white', paddingTop: 10 }}>
               <View style={{ marginTop: 5, paddingHorizontal: 20 }}>
                 <Text style={{ fontSize: 24, fontWeight: '700' }}>
-                  Tomato
+                  {fixLabel}
                 </Text>
                 <Text style={{ fontWeight: '100', marginTop: 10 }}>
-                  Tomato Spider mites Two spotted spider mite
-                                </Text>
+                  {fixLabel.split(' ')[0]}
+                </Text>
                 <View style={{ width: width - 40, height: 200, marginTop: 20 }}>
                   <Image
                     style={{ flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 5, borderWidth: 1, borderColor: '#dddddd' }}
-                    source={{ uri: img, isStatic: true }}
+                    source={{ uri: image, isStatic: true }}
                   />
                 </View>
               </View>
@@ -78,21 +80,18 @@ class Results extends Component {
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <Result imageUri={this.props.img}
-                    name="Bacterial_spot"
-                  />
-                  <TouchableOpacity 
-                  onPress={() => {
-                    navigate('Detail')
-                  }}>
-                    <Result imageUri={this.props.img}
-                      name="Pepper bell healthy"
-                    />
-                  </TouchableOpacity>
-
-                  <Result imageUri={this.props.img}
-                    name="Tomato Spider mites"
-                  />
+                  {recommend.map(r => (
+                    <TouchableOpacity
+                      key={r._id}
+                      onPress={() => {
+                        navigate('Detail')
+                      }}>
+                      <Result imageUri={this.props.img}
+                        name={r.content.split(' ')[0] + '...'}
+                      />
+                    </TouchableOpacity>
+                  ))
+                  }
                 </ScrollView>
               </View>
 
@@ -104,7 +103,7 @@ class Results extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  img: state.content.img
+  data: state.content.data
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)

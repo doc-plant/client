@@ -10,15 +10,18 @@ import {
   ScrollView,
   Image,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import Result from '../components/result'
+import { local } from '../helpers';
 
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 const { height, width } = Dimensions.get('window')
+
 class ResultHS extends Component {
 
   static navigationOptions = ({ navigation }) => ({
@@ -39,28 +42,43 @@ class ResultHS extends Component {
       this.startHeaderHeight = 100 + StatusBar.currentHeight
     }
   }
+  state = {
+    history: {}
+  }
+  async componentDidMount () {
+    const { navigation } = this.props
+    const id = navigation.getParam('historyId')
+    const { data } = await local.get(`/histories/${id}`, {
+      headers: {
+        token: await AsyncStorage.getItem('userToken')
+      }
+    })
+    this.setState({
+      history: data
+    })
+  }
 
 
   render() {
-    const { navigation: { navigate } } = this.props
-    const { navigation } = this.props
-    const img = navigation.getParam('img')
+    const { history, recommend } = this.state.history
+    const { navigation } = this.props 
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
+        {history && 
           <ScrollView scrollEventThrottle={16}>
             <View style={{ flex: 1, backgroundColor: 'white', paddingTop: 10 }}>
               <View style={{ marginTop: 5, paddingHorizontal: 20 }}>
                 <Text style={{ fontSize: 24, fontWeight: '700' }}>
-                  Tomato
+                  {history.labelId.fixLabel}
                 </Text>
                 <Text style={{ fontWeight: '100', marginTop: 10 }}>
-                  Tomato Spider mites Two spotted spider mite
+                  {history.labelId.fixLabel.split(' ')[0]}
                                 </Text>
                 <View style={{ width: width - 40, height: 200, marginTop: 20 }}>
                   <Image
                     style={{ flex: 1, height: null, width: null, resizeMode: 'cover', borderRadius: 5, borderWidth: 1, borderColor: '#dddddd' }}
-                    source={{ uri: img, isStatic: true }}
+                    source={{ uri: history.image, isStatic: true }}
                   />
                 </View>
               </View>
@@ -68,30 +86,28 @@ class ResultHS extends Component {
                 Treatment Recommendations
                             </Text>
               <View style={{ height: 190, marginTop: 15 }}>
-                <ScrollView
+              <ScrollView
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  <Result imageUri={img}
-                    name="Bacterial_spot"
-                  />
-                  <TouchableOpacity 
-                  onPress={() => {
-                    navigate('Detail')
-                  }}>
-                    <Result imageUri={img}
-                      name="Pepper bell healthy"
-                    />
-                  </TouchableOpacity>
-
-                  <Result imageUri={img}
-                    name="Tomato Spider mites"
-                  />
+                  {recommend.map(r => (
+                    <TouchableOpacity
+                      key={r._id}
+                      onPress={() => {
+                       navigation.navigate('Detail', {recommend: r})
+                      }}>
+                      <Result imageUri={this.props.img}
+                        name={r.content.split(' ')[0] + '...'}
+                      />
+                    </TouchableOpacity>
+                  ))
+                  }
                 </ScrollView>
               </View>
 
             </View>
           </ScrollView>
+        }
         </View>
       </View>
     );

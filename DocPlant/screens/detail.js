@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Image, WebView, Dimensions } from 'react-native';
+import { Image, WebView, Dimensions} from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, } from 'native-base';
 import HTML from 'react-native-render-html';
+import { local } from '../helpers';
+
 let { height, width } = Dimensions.get('window');
+
 export default class Detail extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
@@ -16,19 +19,23 @@ export default class Detail extends Component {
     }
   })
   state = {
-    embedUri: "ysbeEQWXbA8?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com"
+    embedUri: "ysbeEQWXbA8?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com",
   }
+
   render() {
+    const { navigation } = this.props
+    const recommend = navigation.getParam('recommend')
+    console.log(recommend)
     return (
       <Container>
         <Content>
           <Card style={{ flex: 0 }}>
             <CardItem>
               <Left>
-                <Thumbnail source={{ uri: `http://pngimg.com/uploads/tomato/tomato_PNG12590.png` }} />
+                <Thumbnail source={{ uri: recommend.userId.avatar }} />
                 <Body>
-                  <Text>Tomatto</Text>
-                  <Text note>April 15, 2019</Text>
+                  <Text>{recommend.article}</Text>
+                  <Text note>{recommend.createdAt}</Text>
                 </Body>
               </Left>
             </CardItem>
@@ -36,12 +43,7 @@ export default class Detail extends Component {
               <Body>
                 <Image source={{ uri: `http://pngimg.com/uploads/tomato/tomato_PNG12590.png` }} style={{ height: 200, width: "100%", flex: 1 }} />
                 <Text style={{ marginTop: 10, textAlign: 'justify' }}>
-                  Tomatoes are an intensely nutritious plant food.
-                  The benefits of consuming different types of fruit and vegetable are impressive,
-                  and tomatoes are no different. As the proportion of plant foods in the diet increases, the risk of developing heart disease, diabetes, and cancer decreases.
-                  There are different types and sizes of tomato, and they can be
-                  prepared in different ways. These include cherry tomatoes, stewed tomatoes, raw tomatoes, soups, juices, and purees.
-                  The health benefits can vary between types. For example, cherry tomatoes have higher beta-carotene content than regular tomatoes.
+                  {recommend.content}
                 </Text>
               </Body>
             </CardItem>
@@ -49,7 +51,7 @@ export default class Detail extends Component {
               <Left>
                 <Button transparent textStyle={{ color: '#87838B' }}>
                   <Icon name="create" />
-                  <Text style={{ fontSize: 15, fontWeight: '700' }}>Herman Susanto</Text>
+                  <Text style={{ fontSize: 15, fontWeight: '700' }}>{recommend.userId.fullname}</Text>
                 </Button>
               </Left>
             </CardItem>
@@ -65,7 +67,7 @@ export default class Detail extends Component {
             </CardItem>
             <CardItem>
               <Body style={{ width: width - 20, height: height / 3, }}>
-                <HTML html={` <iframe width="340" height="100"  src="https://www.youtube.com/embed/${this.state.embedUri}">
+                <HTML html={`<iframe width="340" height="100"  src="https://www.youtube.com/embed/${this.state.embedUri}">
                         </iframe>
                       `} />
               </Body>

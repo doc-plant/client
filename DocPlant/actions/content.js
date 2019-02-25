@@ -1,12 +1,27 @@
 import * as firebase from 'firebase';
+import {local} from '../helpers/index';
+import {AsyncStorage} from 'react-native';
 
 export function add_image(image) {
  return async (dispatch) => {
+   try {     
     const imageUri = await uploadImage(image,new Date().getTime())
+    console.log(imageUri)
+    const {data} = await local.post('/histories', {
+      image: imageUri
+    }, {
+      headers: {
+        token: await AsyncStorage.getItem('userToken') 
+      }
+    })
+    console.log(data, '----------------')
     dispatch({
       type: "ADD_IMAGE",
-      payload: imageUri
+      payload: data
     })
+  } catch (error) {
+     console.log(error)
+  }
 
   }
 }

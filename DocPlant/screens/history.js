@@ -8,16 +8,11 @@ import {
   FlatList,
   TouchableHighlight,
   TouchableOpacity,
-  Platform
+  Platform,
+  AsyncStorage
 } from "react-native";
-import { Container, Header, Content, List, ListItem, Text, Icon, Left, Body, Right, Switch, Button } from 'native-base';
-
+import { local } from '../helpers';
 import Card_List from '../components/card_list';
-
-
-
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 const { height, width } = Dimensions.get('window')
 
 
@@ -35,8 +30,18 @@ class History extends Component {
     }
   })
   state = {
-    active: 'true',
-    search: '[{},{},{}]'
+    histories: []
+  }
+
+  async componentDidMount () {
+    const { data } = await local.get('/histories', {
+      headers: {
+        token: await AsyncStorage.getItem('userToken')
+      }
+    })
+    this.setState({
+      histories: data
+    })
   }
 
   render() {
@@ -47,12 +52,13 @@ class History extends Component {
           <View style={style.container}>
             {
               <FlatList
-                data={this.state.search}
+                data={this.state.histories}
                 initialNumToRender={8}
+                keyExtractor={(item ) => item._id}
                 renderItem={({ item }, index) =>
                   <TouchableHighlight
                     onPress={() => {
-                      navigate('HistoryDetail', {img:"https://firebasestorage.googleapis.com/v0/b/docplant-f7bfd.appspot.com/o/icon%2Ftomato.png?alt=media&token=9fd573e5-959e-4963-8337-401c81a01c9b"});
+                      navigate('HistoryDetail', {historyId: item._id});
                     }}
                   >
                     <Card_List item={item}></Card_List>
@@ -67,13 +73,13 @@ class History extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  img: state.content.img
-})
+// const mapStateToProps = (state) => ({
+//   img: state.content.img
+// })
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+// const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(History)
+export default History;
 
 const style = StyleSheet.create({
   container: {

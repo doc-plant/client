@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Dimensions, Text, Image, TouchableOpacity, ImageBackground, AsyncStorage, } from 'react-native';
 import { Google } from 'expo';
+import {local} from '../helpers/index'
 
 import { Button, Content, Item, Input, Icon } from 'native-base';
 import { isLogin } from '../actions/user'
@@ -27,6 +28,35 @@ class Login extends Component {
   static navigationOptions = {
     title: 'Please sign in !',
   };
+
+  state = {
+    email: '',
+    password: ''
+  }
+
+  handleChangeText = (name) => (value) => {
+    this.setState({
+      [name]: value
+    })
+  }
+
+  handleOnSubmit = async () => {
+    try {
+      const {data} = await local.post('/users/login', this.state)
+      await AsyncStorage.setItem('userAuth', data.fullname);
+      await AsyncStorage.setItem('userphotoUrl', data.avatar);
+      await AsyncStorage.setItem('userToken', data.token);
+      await AsyncStorage.setItem('_id', data._id);
+      this.props.navigation.navigate('Home')
+      this.setState({
+        email: '',
+        password: ''    
+      })
+    } catch (response) {
+      console.log(response)
+    }
+  }
+
   googleSignin = async () => {
     try {
       const result = await Google.logInAsync({
@@ -50,6 +80,7 @@ class Login extends Component {
 
   render() {
     const { navigation: { navigate } } = this.props
+    const {email, password} = this.state
     return (
       <View style={style.container}>
         <ImageBackground source={require('../assets/background_login.png')} style={{ width: '100%', height: '100%' }}>
@@ -61,13 +92,22 @@ class Login extends Component {
           <View style={style.body}>
             <View style={{ width: "85%", color: "#fff", marginBottom: 20, padding: 10, borderWidth: 0 }}>
               <Item rounded style={{ margin: 10, width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
-                <Input placeholder='e-mail' />
+                <Input 
+                  placeholder='e-mail'
+                  onChangeText={this.handleChangeText('email')}
+                  value={email}
+                />
               </Item>
               <Item rounded style={{ width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
-                <Input placeholder='password' />
+                <Input
+                  placeholder='password'
+                  onChangeText={this.handleChangeText('password')}
+                  value={password}
+                />
               </Item>
             </View>
             <Button bordered light
+              onPress={this.handleOnSubmit}
               style={{
                 width: "80%",
                 alignSelf: "center",
