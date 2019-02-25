@@ -52,7 +52,7 @@ class Login extends Component {
         email: '',
         password: ''    
       })
-    } catch ({response}) {
+    } catch (response) {
       console.log(response)
     }
   }

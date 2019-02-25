@@ -5,23 +5,24 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView, Image, Dimension
 let { height, width } = Dimensions.get('window');
 export default class Card_List extends Component {
   render() {
+    const { image, labelId: {fixLabel}, createdAt} = this.props.item
     return (
       <View style={style.list}>
         <View style={style.list_image}>
-          <Image source={{ uri: `http://pngimg.com/uploads/tomato/tomato_PNG12590.png` }}
+          <Image source={{ uri: image }}
             style={{ width: 80, height: 80 }} />
         </View>
         <View style={style.list_title}>
           <Text style={{ color: 'black', fontSize: 13 }} >
-           Tomatto
+           {fixLabel}
           </Text>
           <Text>
-            Tes
+            {fixLabel.split(' ')[0]}
           </Text>
           <Text>
           </Text>
           <Text>
-           Tes
+           {createdAt.toString()}
           </Text>
         </View>
       </View>

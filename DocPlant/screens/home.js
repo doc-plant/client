@@ -40,7 +40,6 @@ class Home extends Component {
       userAuth: await AsyncStorage.getItem('userAuth'),
       _id: await AsyncStorage.getItem('_id')
     })
-
   }
 
   static navigationOptions = {
