@@ -1,14 +1,15 @@
 const defaultState = {
-  img: '',
+  data: {}
 }
 
 export default function (state = defaultState, actions) {
   const { type, payload} = actions
   switch (type) {
     case 'ADD_IMAGE':
+    console.log(payload)
       return ({
         ...state,
-        img:payload
+        data:payload
       })
       
     default:

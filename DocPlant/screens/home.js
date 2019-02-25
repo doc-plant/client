@@ -11,7 +11,8 @@ import {
   Image,
   Dimensions,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import { Fab, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -25,14 +26,21 @@ import * as firebase from 'firebase';
 const { height, width } = Dimensions.get('window')
 class Home extends Component {
   state = {
-    active: 'false'
+    active: 'false',
+    userAuth: '',
+    _id: ''
   }
-  componentWillMount() {
+  async componentWillMount() {
     if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
     this.startHeaderHeight = 80
     if (Platform.OS == 'android') {
       this.startHeaderHeight = 100 + StatusBar.currentHeight
     }
+    this.setState({
+      userAuth: await AsyncStorage.getItem('userAuth'),
+      _id: await AsyncStorage.getItem('_id')
+    })
+
   }
 
   static navigationOptions = {
@@ -40,6 +48,7 @@ class Home extends Component {
   }
 
   render() {
+    const {userAuth, _id} = this.state
     return (
 
       <View style={{ flex: 1 }}>
@@ -52,7 +61,7 @@ class Home extends Component {
                     Hello,
                 </Text>
                   <Text style={{ fontSize: 30, fontWeight: '700', color: "white" }}>
-                    Muhammad Khevin
+                    {userAuth}
                 </Text>
                 </View>
                 <Text style={{ marginTop: 25, fontSize: 24, fontWeight: '700', paddingHorizontal: 20, paddingTop: 80 }}>
