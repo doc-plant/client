@@ -30,7 +30,7 @@ class Register extends Component {
   googleSignin = async () => {
     try {
       const result = await Google.logInAsync({
-        iosClientId: "791328107160-ftlj7arl1tpn1cdtcv9h7iaki45cgcl0.apps.googleusercontent.com",
+        iosClientId: ".",
         scopes: ['profile', 'email'],
       });
 
