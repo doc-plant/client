@@ -42,7 +42,7 @@ const CustomDrawerContentComponent = (props) => (
 
 const DrawerNavigation = createDrawerNavigator({
   Home: {
-    screen: Home,
+    screen: Disease,
     navigationOptions: {
       drawerLabel: 'Home',
       drawerIcon: ({ tintColor }) => (
@@ -65,12 +65,12 @@ const DrawerNavigation = createDrawerNavigator({
       drawerLabel: () => null
     }
   },
-  Disease: {
-    screen: Disease,
-    navigationOptions: {
-      drawerLabel: () => null
-    }
-  },
+  // Disease: {
+  //   screen: Disease,
+  //   navigationOptions: {
+  //     drawerLabel: () => null
+  //   }
+  // },
 
 }, {
     initialRouteName: 'Home',

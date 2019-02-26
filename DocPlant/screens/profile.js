@@ -40,14 +40,26 @@ class Profile extends Component {
   })
 
   state = {
-    active: 'true'
+    active: 'true',
+    avatar: '',
+    fullname: '',
+    email: ''
   }
   _signOutAsync = async () => {
     await AsyncStorage.clear();
     this.props.navigation.navigate('FirstScreen');
   };
 
+  async componentDidMount () {
+    this.setState({
+      avatar: await AsyncStorage.getItem('userphotoUrl'),
+      fullname: await AsyncStorage.getItem('userAuth'),
+      email: await AsyncStorage.getItem('userEmail')
+    })
+  }
+
   render() {
+    const { avatar, email, fullname } = this.state;
     return (
 
       <View style={{ flex: 1 }}>
@@ -55,15 +67,17 @@ class Profile extends Component {
           <View style={styles.container}>
             <View style={{ height: 190, width: 140, borderRadius: 10, backgroundColor: 'rgb(231,234,236)' }}>
               <View>
-                <Image source={{ uri: "https://2.bp.blogspot.com/-Z2f_rpbGnXs/WpKK4rFuefI/AAAAAAAAAQ0/h4Cm6zcmu_UdJrcXvS6HH3TOg3lBTWIEwCEwYBhgL/w800-h800/1519398909.png", isStatic: true, borderRadius: 10, }}
+                {avatar ? <Image source={{ uri: avatar, isStatic: true, borderRadius: 10, }}
                   style={{ width: 140, height: 120, resizeMode: 'cover', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
-                />
+                />:<Image source={{ uri: "https://2.bp.blogspot.com/-Z2f_rpbGnXs/WpKK4rFuefI/AAAAAAAAAQ0/h4Cm6zcmu_UdJrcXvS6HH3TOg3lBTWIEwCEwYBhgL/w800-h800/1519398909.png", isStatic: true, borderRadius: 10, }}
+                style={{ width: 140, height: 120, resizeMode: 'cover', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
+              />}
               </View>
               <View style={{
                 flex: 1, paddingLeft: 10, paddingTop: 20, alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <Text style={{ fontSize: 15, fontWeight: '700' }}>Muhammad Vinutama</Text>
+                <Text style={{ fontSize: 15, fontWeight: '700' }}>{fullname}</Text>
               </View>
             </View>
 
@@ -80,7 +94,7 @@ class Profile extends Component {
               </Body>
               <Right>
                 <Text>
-                  muhammadvinutama@gmail.com
+                  {email}
                 </Text>
               </Right>
             </ListItem>

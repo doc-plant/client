@@ -46,6 +46,7 @@ class Login extends Component {
       await AsyncStorage.setItem('userAuth', data.fullname);
       await AsyncStorage.setItem('userphotoUrl', data.avatar);
       await AsyncStorage.setItem('userToken', data.token);
+      await AsyncStorage.setItem('userEmail', data.email);
       await AsyncStorage.setItem('_id', data._id);
       this.props.navigation.navigate('Home')
       this.setState({
@@ -60,16 +61,24 @@ class Login extends Component {
   googleSignin = async () => {
     try {
       const result = await Google.logInAsync({
-        iosClientId: "",
+        iosClientId: "909570633912-mmed8dvqcao7ta88nl3132cvu20gc0h1.apps.googleusercontent.com",
         scopes: ['profile', 'email'],
       });
 
       if (result.type === 'success') {
-        await AsyncStorage.setItem('userAuth', result.user.name);
-        await AsyncStorage.setItem('userphotoUrl', result.user.photoUrl);
-
-        await AsyncStorage.setItem('userToken', result.accessToken);
-        this.props.navigation.navigate('Home')
+        // console.log(result)
+        let {data} = await local.post('/users/google',{
+          email: result.user.email,
+          avatar: result.user.photoUrl,
+          fullname: result.user.name
+        })
+        console.log(data)
+        await AsyncStorage.setItem('userAuth', data.fullname);
+        await AsyncStorage.setItem('userphotoUrl', data.avatar);
+        await AsyncStorage.setItem('userToken', data.token);
+        await AsyncStorage.setItem('userEmail', data.email);
+        await AsyncStorage.setItem('_id', data._id);
+          this.props.navigation.navigate('Home')
       } else {
         return { cancelled: true };
       }
@@ -92,6 +101,7 @@ class Login extends Component {
           <View style={style.body}>
             <View style={{ width: "85%", color: "#fff", marginBottom: 20, padding: 10, borderWidth: 0 }}>
               <Item rounded style={{ margin: 10, width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
+                <Icon name="ios-mail"/>
                 <Input 
                   placeholder='e-mail'
                   onChangeText={this.handleChangeText('email')}
@@ -99,8 +109,9 @@ class Login extends Component {
                 />
               </Item>
               <Item rounded style={{ width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
+                <Icon name="ios-lock"/>
                 <Input
-                  placeholder='password'
+                  placeholder='password' secureTextEntry={true}
                   onChangeText={this.handleChangeText('password')}
                   value={password}
                 />
@@ -119,25 +130,29 @@ class Login extends Component {
                   color: "white",
                   fontWeight: 'bold',
                   fontSize: 20,
-                }}>SUBMIT</Text>
+                }}>Sign In</Text>
             </Button>
-            <View style={{ flexDirection: 'row', marginTop: 70 }}>
+            <View style={{ flexDirection: 'row', marginTop: 60 }}>
               <View style={{ backgroundColor: 'white', height: 1, flex: 1, alignSelf: 'center' }} />
               <Text style={{ alignSelf: 'center', paddingHorizontal: 5, fontSize: 20, color:"white" }}>Sign in with </Text>
               <View style={{ backgroundColor: 'white', height: 1, flex: 1, alignSelf: 'center' }} />
             </View>
-            <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            <Button transparent textStyle={{ color: '#87838B' }}  onPress={() => this.googleSignin()}>
-                  <Icon name="logo-google" style={{ color: "white" }}  />
-            </Button>
-            <Button transparent textStyle={{ color: '#87838B' }}>
-                  <Icon name="logo-facebook" style={{ color: "white" }} />
-            </Button>
-            <Button transparent textStyle={{ color: '#87838B' }}>
-                  <Icon name="logo-twitter"style={{ color: "white" }}  />
-            </Button>
-            <Button transparent textStyle={{ color: '#87838B' }}>
-                  <Icon name="logo-github" style={{ color: "white" }} />
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <Button bordered light
+              onPress={() => this.googleSignin()}
+              style={{
+                width: "80%",
+                alignSelf: "center",
+                justifyContent: 'center',
+                borderRadius: 20,
+                marginBottom: 10
+              }}>
+              <Text
+                style={{
+                  color: "white",
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}><Icon name="logo-google" style={{ color: "white" }}/>oogle Sign-In</Text>
             </Button>
             </View>
           </View>

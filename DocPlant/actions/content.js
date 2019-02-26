@@ -14,11 +14,18 @@ export function add_image(image) {
         token: await AsyncStorage.getItem('userToken') 
       }
     })
-    console.log(data, '----------------')
-    dispatch({
-      type: "ADD_IMAGE",
-      payload: data
-    })
+    if (data.message) {
+      console.log('masuk bosss')
+      dispatch({
+        type: "NOT_FOUND",
+        payload: data
+      })
+    } else {
+      dispatch({
+        type: "ADD_IMAGE",
+        payload: data
+      })
+    }
   } catch (error) {
      console.log(error)
   }
