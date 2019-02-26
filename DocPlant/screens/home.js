@@ -17,6 +17,7 @@ import {
 import { Fab, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Recomended from '../components/recomended'
+import SvgAnimatedLinearGradient from 'react-native-svg-animated-linear-gradient';
 
 
 import { connect } from 'react-redux'
@@ -49,7 +50,6 @@ class Home extends Component {
   render() {
     const {userAuth, _id} = this.state
     return (
-
       <View style={{ flex: 1 }}>
         <ImageBackground source={require('../assets/home_background.png')} style={{ width: '100%', height: '100%' }}>
           <View style={{ flex: 1 }}>
