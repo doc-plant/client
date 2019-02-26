@@ -25,6 +25,20 @@ export function add_image(image) {
 
   }
 }
+export function add_form_image (image) {
+  return async (dispatch) => {
+    try {     
+     const imageUri = await uploadImage(image,new Date().getTime())
+     dispatch({
+       type: "ADD_IMAGE_FORM",
+       payload: imageUri
+     })
+   } catch (error) {
+      console.log(error)
+   }
+ 
+   }
+}
 
 uploadImage = async (uri, imageName) => {
   const blob = await new Promise((resolve, reject) => {

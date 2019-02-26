@@ -3,6 +3,7 @@ import { StyleSheet, View, Dimensions, Text, Image, TouchableOpacity, ImageBackg
 import { local } from '../helpers/index';
 import axios from 'axios';
 
+
 import { Button, Content, Item, Input } from 'native-base';
 import { isLogin } from '../actions/user'
 import { connect } from 'react-redux'
@@ -64,7 +65,7 @@ class Register extends Component {
 
   handleOnSubmit = async () => {
     try {
-      const { data } = await axios.post('http://172.20.10.2:3000/users', this.state)
+      const { data } = await local.post('/users', this.state)
       console.log(data)
     } catch (error) {
       console.log(error)
