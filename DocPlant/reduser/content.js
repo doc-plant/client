@@ -1,6 +1,7 @@
 const defaultState = {
   data: {},
-  form_list:""
+  form_list:"",
+  notFound: false
 }
 
 export default function (state = defaultState, actions) {
@@ -9,8 +10,17 @@ export default function (state = defaultState, actions) {
     case 'ADD_IMAGE':
       return ({
         ...state,
-        data:payload
+        data:payload,
+        notFound: false
       })
+      case 'NOT_FOUND':
+      console.log(payload)
+        return ({
+          ...state,
+          data: payload,
+          notFound: true
+        })
+
       case 'ADD_IMAGE_FORM':
       return ({
         ...state,

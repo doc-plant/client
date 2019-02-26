@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   TouchableOpacity,
   Platform,
+  Button
 } from "react-native";
 import { Container, Header, Content, List, ListItem, Text, Left, Right, Icon } from 'native-base';
 
@@ -17,52 +18,43 @@ export default class Disease extends Component {
     headerTitleStyle: {
       fontWeight: 'bold',
     },
-
-    headerLeft: (
-      <TouchableOpacity
-        style={{ width: 30, color: "#fff", paddingLeft: 10 }}
-        onPress={() => navigation.openDrawer()}>
-        <Icon name={Platform.OS === "ios" ? "ios-menu" : "md-menu"} size={30} style={{ color: "#fff" }} />
-      </TouchableOpacity>
-    ),
   })
+
+  state = {
+    diseases: []
+  }
+  
+  componentDidMount () {
+    this.setState({
+      diseases: this.props.navigation.getParam('diseases')
+    })
+  }
+
   render() {
     const { navigation: { navigate } } = this.props
+    const diseases = this.state.diseases
     return (
       <Container>
         <Content>
           <List>
-            <ListItem>
+            {diseases.map( d =>  (
+            <ListItem
+            key={d._id}
+            >
               <Left>
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('Diseases');
+                    navigate('Diseases', {details: d});
                   }}
                 >
-                  <Text>Simon Mignolet</Text>
+                  <Text>{d.name}</Text>
                 </TouchableOpacity>
               </Left>
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-
-            <ListItem >
-              <Left>
-                <Text>Nathaniel Clyne</Text>
-              </Left>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left>
-                <Text>Dejan Lovren</Text>
-              </Left>
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </ListItem>
+            ))}
           </List>
         </Content>
       </Container>

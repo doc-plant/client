@@ -94,10 +94,10 @@ class ResultHS extends Component {
                     <TouchableOpacity
                       key={r._id}
                       onPress={() => {
-                       navigation.navigate('Detail', {recommend: r})
+                       navigation.navigate('Detail', {recommend: r, user: history.userId.fullname})
                       }}>
-                      <Result imageUri={this.props.img}
-                        name={r.content.split(' ')[0] + '...'}
+                      <Result imageUri={history.image}
+                        name={r.article.split(' ')[0] + '...'}
                       />
                     </TouchableOpacity>
                   ))

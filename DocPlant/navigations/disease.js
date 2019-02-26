@@ -8,6 +8,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Disease from '../screens/disease'
 import DiseaseDetail from '../screens/diseaseDetail'
 import Detail from '../screens/detail'
+import Home from '../screens/home'
 
 const DiseaseNavigation = createStackNavigator({
   Disease: {
@@ -19,9 +20,12 @@ const DiseaseNavigation = createStackNavigator({
   Detail: {
     screen: Detail
   },
+  Home: {
+    screen: Home
+  }
 },
   {
-    initialRouteName: 'Disease'
+    initialRouteName: 'Home'
   })
 
 export default DiseaseNavigation

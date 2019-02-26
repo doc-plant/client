@@ -101,7 +101,7 @@ class Register extends Component {
                 />
               </Item>
               <Item rounded style={{ width:"100%" , backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft:10, borderWidth:0}}>
-                <Input  placeholder='password'
+                <Input  placeholder='password' type='password'
                   onChangeText={this.handleChange('password')}
                   value={password}
                 />

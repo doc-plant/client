@@ -25,7 +25,7 @@ export default class Detail extends Component {
   render() {
     const { navigation } = this.props
     const recommend = navigation.getParam('recommend')
-    console.log(recommend)
+    const owner = navigation.getParam('user')
     return (
       <Container>
         <Content>
@@ -41,7 +41,7 @@ export default class Detail extends Component {
             </CardItem>
             <CardItem>
               <Body>
-                <Image source={{ uri: `http://pngimg.com/uploads/tomato/tomato_PNG12590.png` }} style={{ height: 200, width: "100%", flex: 1 }} />
+                <Image source={{ uri: recommend.imageUrl }} style={{ height: 200, width: "100%", flex: 1 }} />
                 <Text style={{ marginTop: 10, textAlign: 'justify' }}>
                   {recommend.content}
                 </Text>
@@ -51,7 +51,7 @@ export default class Detail extends Component {
               <Left>
                 <Button transparent textStyle={{ color: '#87838B' }}>
                   <Icon name="create" />
-                  <Text style={{ fontSize: 15, fontWeight: '700' }}>{recommend.userId.fullname}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: '700' }}>{owner}</Text>
                 </Button>
               </Left>
             </CardItem>
@@ -60,7 +60,7 @@ export default class Detail extends Component {
             <CardItem>
               <Left>
                 <Body>
-                  <Text style={{ fontSize: 27, fontWeight: '700' }}>Recomended Video </Text>
+                  <Text style={{ fontSize: 27, fontWeight: '700' }}>Recommended Video </Text>
                   <Text note></Text>
                 </Body>
               </Left>
