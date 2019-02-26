@@ -19,7 +19,6 @@ export default class Disease extends Component {
       fontWeight: 'bold',
     },
   })
-
   state = {
     diseases: []
   }
@@ -29,7 +28,6 @@ export default class Disease extends Component {
       diseases: this.props.navigation.getParam('diseases')
     })
   }
-
   render() {
     const { navigation: { navigate } } = this.props
     const diseases = this.state.diseases
