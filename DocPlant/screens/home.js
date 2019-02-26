@@ -49,6 +49,7 @@ class Home extends Component {
 
   render() {
     const {userAuth, _id} = this.state
+    const { navigation: { navigate } } = this.props
     return (
       <View style={{ flex: 1 }}>
         <ImageBackground source={require('../assets/home_background.png')} style={{ width: '100%', height: '100%' }}>
@@ -70,10 +71,16 @@ class Home extends Component {
                   <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
+                  > 
+                  <TouchableOpacity
+                   onPress={() => {
+                    navigate('Disease');
+                  }}
                   >
-                    <Recomended imageUri={'https://firebasestorage.googleapis.com/v0/b/docplant-f7bfd.appspot.com/o/icon%2Fapple.png?alt=media&token=b383b6c4-27d3-4925-a0e2-7cfc92e5ee52'}
+                  <Recomended imageUri={'https://firebasestorage.googleapis.com/v0/b/docplant-f7bfd.appspot.com/o/icon%2Fapple.png?alt=media&token=b383b6c4-27d3-4925-a0e2-7cfc92e5ee52'}
                       name="Apple"
                     />
+                  </TouchableOpacity>
                     <Recomended imageUri={'https://firebasestorage.googleapis.com/v0/b/docplant-f7bfd.appspot.com/o/icon%2Fbluberry.png?alt=media&token=817ef551-56cb-4903-a830-4166b09c98e5'}
                       name="Blueberry"
                     />

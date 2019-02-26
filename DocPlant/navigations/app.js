@@ -11,6 +11,7 @@ import {
 
 //screens
 import Home from '../screens/home'
+import Disease from './disease'
 import Camera from '../screens/camera'
 import Result from './result'
 import Profile from './profile'
@@ -60,6 +61,12 @@ const DrawerNavigation = createDrawerNavigator({
   },
   Result: {
     screen: Result,
+    navigationOptions: {
+      drawerLabel: () => null
+    }
+  },
+  Disease: {
+    screen: Disease,
     navigationOptions: {
       drawerLabel: () => null
     }
