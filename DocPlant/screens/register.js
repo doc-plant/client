@@ -85,23 +85,23 @@ class Register extends Component {
           </View>
           <View style={style.body}>
 
-            <View style={{width:"85%", color:"#fff", marginBottom:20, padding:10,  borderWidth:0}}>
-              <Item rounded  style={{margin:10, width:"100%",backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft:10,  borderWidth:0}}>
-                <Input 
+            <View style={{ width: "85%", color: "#fff", marginBottom: 20, padding: 10, borderWidth: 0 }}>
+              <Item rounded style={{ margin: 10, width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
+                <Input
                   placeholder='fullname'
                   onChangeText={this.handleChange('fullname')}
                   value={fullname}
                 />
               </Item>
-              <Item rounded  style={{margin:10, width:"100%",backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft:10,  borderWidth:0}}>
+              <Item rounded style={{ margin: 10, width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
                 <Input
                   placeholder='e-mail'
                   onChangeText={this.handleChange('email')}
                   value={email}
                 />
               </Item>
-              <Item rounded style={{ width:"100%" , backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft:10, borderWidth:0}}>
-                <Input  placeholder='password' type='password'
+              <Item rounded style={{ width: "100%", backgroundColor: "rgba(255, 255, 255, 0.5)", paddingLeft: 10, borderWidth: 0 }}>
+                <Input placeholder='password' type='password'
                   onChangeText={this.handleChange('password')}
                   value={password}
                 />
@@ -123,16 +123,21 @@ class Register extends Component {
                   fontSize: 20,
                 }}>Submit</Text>
             </Button>
-            <Text
-              style={{
-                marginTop: 30,
-                color: "white",
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}
-              onPress={() => this.props.navigation.navigate('Login')}
-            >Already have an account? SIGN IN
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('Login')} 
+            >
+              <Text
+                style={{
+                  marginTop: 30,
+                  color: "white",
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                }}
+
+              >Already have an account? SIGN IN
             </Text>
+            </TouchableOpacity>
+
           </View>
           <View style={style.footer}>
             <Text style={{

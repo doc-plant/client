@@ -60,8 +60,8 @@ class ResultHS extends Component {
 
 
   render() {
-    const { history, recommend } = this.state.history
-    const { navigation } = this.props 
+    const { history, recommend, youtube } = this.state.history
+    const { navigation } = this.props
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -94,7 +94,7 @@ class ResultHS extends Component {
                     <TouchableOpacity
                       key={r._id}
                       onPress={() => {
-                       navigation.navigate('Detail', {recommend: r, user: history.userId.fullname})
+                       navigation.navigate('Detail', {recommend: r, user: history.userId.fullname, youtubes: youtube})
                       }}>
                       <Result imageUri={history.image}
                         name={r.article.split(' ')[0] + '...'}

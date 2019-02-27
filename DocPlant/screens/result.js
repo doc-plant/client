@@ -49,12 +49,13 @@ class Results extends Component {
 
 
   render() {
-    const { navigation: { navigate }, data, notFound } = this.props
+    const { navigation: { navigate }, data, notFound, youtubes } = this.props
     const { history, recommend } = data
-    let imagePlant, fixLabelPlant
+    let imagePlant, fixLabelPlant, listVideos
     if (history) {
       const { image, labelId } = history
       imagePlant = image
+      listVideos = youtubes
       const { diseaseId: { name }, fixLabel } = labelId
       fixLabelPlant = fixLabel
     }
@@ -113,7 +114,7 @@ class Results extends Component {
                   <TouchableOpacity
                     key={r._id}
                     onPress={() => {
-                      navigate('Detail', {recommend: r, user: history.userId.fullname})
+                      navigate('Detail', {recommend: r, user: history.userId.fullname, youtubes: listVideos})
                     }}>
                     <Result imageUri={r.imageUrl}
                       name={r.content.split(' ')[0] + '...'}
@@ -137,7 +138,8 @@ class Results extends Component {
 }
 const mapStateToProps = (state) => ({
   data: state.content.data,
-  notFound: state.content.notFound
+  notFound: state.content.notFound,
+  youtubes: state.content.youtubes
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)

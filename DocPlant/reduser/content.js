@@ -1,7 +1,8 @@
 const defaultState = {
   data: {},
   form_list:"",
-  notFound: false
+  notFound: false,
+  youtubes: []
 }
 
 export default function (state = defaultState, actions) {
@@ -11,10 +12,10 @@ export default function (state = defaultState, actions) {
       return ({
         ...state,
         data:payload,
+        youtubes: payload.youtube.slice(0, 5),
         notFound: false
       })
       case 'NOT_FOUND':
-      console.log(payload)
         return ({
           ...state,
           data: payload,
