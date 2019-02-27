@@ -46,7 +46,7 @@ const DrawerNavigation = createDrawerNavigator({
     navigationOptions: {
       drawerLabel: 'Home',
       drawerIcon: ({ tintColor }) => (
-        <Icon name={Platform.OS === "ios" ? "ios-home" : "md-home"} size={24} style={{ color: "rgb(61, 64, 68)" }} />
+        <Icon name={Platform.OS === "ios" ? "ios-home" : "md-home"} size={24} style={{ color: 'rgb(59, 133, 5)' }} />
       ),
     }
   },
@@ -56,7 +56,10 @@ const DrawerNavigation = createDrawerNavigator({
   Profile: {
     screen: Profile,
     navigationOptions: {
-      drawerLabel: () => null
+      drawerLabel: 'Profile',
+      drawerIcon: ({ tintColor }) => (
+        <Icon name={Platform.OS === "ios" ? "ios-person" : "md-person"} size={24} style={{ color: 'rgb(59, 133, 5)' }} />
+      ),
     }
   },
   Result: {
@@ -65,13 +68,6 @@ const DrawerNavigation = createDrawerNavigator({
       drawerLabel: () => null
     }
   },
-  // Disease: {
-  //   screen: Disease,
-  //   navigationOptions: {
-  //     drawerLabel: () => null
-  //   }
-  // },
-
 }, {
     initialRouteName: 'Home',
     contentComponent: CustomDrawerContentComponent,

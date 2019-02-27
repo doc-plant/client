@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Image, WebView, Dimensions} from 'react-native';
+import { Image, WebView, Dimensions ,View, ScrollView,} from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, } from 'native-base';
-import HTML from 'react-native-render-html';
 import { local } from '../helpers';
+import VideoComponent from '../components/video'
 
 let { height, width } = Dimensions.get('window');
 
@@ -19,9 +19,9 @@ export default class Detail extends Component {
     }
   })
   state = {
-    embedUri: "ysbeEQWXbA8?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com",
+    videos: [1,2,3]
   }
-
+  
   render() {
     const { navigation } = this.props
     const recommend = navigation.getParam('recommend')
@@ -66,11 +66,21 @@ export default class Detail extends Component {
               </Left>
             </CardItem>
             <CardItem>
-              <Body style={{ width: width - 20, height: height / 3, }}>
-                <HTML html={`<iframe width="340" height="100"  src="https://www.youtube.com/embed/${this.state.embedUri}">
-                        </iframe>
-                      `} />
-              </Body>
+              <View style={{ flex: 1, height: 300 }}>
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  {
+                    this.state.videos.map(p => (
+                      <VideoComponent/>
+                      // <VideoComponent ViedoUri={p.image}
+                      //   Videoname={p.name}
+                      // />
+                    ))
+                  }
+                </ScrollView>
+              </View>
             </CardItem>
           </Card>
         </Content>

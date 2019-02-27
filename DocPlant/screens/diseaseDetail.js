@@ -164,7 +164,7 @@ class DetailDisease extends Component {
                 <Text style={{ fontSize: 24, fontWeight: '700' }}>
                   {detail.name}
                 </Text>
-                <Text style={{ fontWeight: '100', marginTop: 10, fontSize: 17 }}>
+                <Text style={{ fontWeight: '100', marginTop: 10, fontSize: 17 , textAlign:"justify"}}>
                   {detail.description}
                                 </Text>
               </View>
