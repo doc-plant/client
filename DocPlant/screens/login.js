@@ -61,7 +61,7 @@ class Login extends Component {
   googleSignin = async () => {
     try {
       const result = await Google.logInAsync({
-        iosClientId: "",
+        iosClientId: "909570633912-mmed8dvqcao7ta88nl3132cvu20gc0h1.apps.googleusercontent.com",
         scopes: ['profile', 'email'],
       });
 
@@ -72,7 +72,6 @@ class Login extends Component {
           avatar: result.user.photoUrl,
           fullname: result.user.name
         })
-        console.log(data)
         await AsyncStorage.setItem('userAuth', data.fullname);
         await AsyncStorage.setItem('userphotoUrl', data.avatar);
         await AsyncStorage.setItem('userToken', data.token);

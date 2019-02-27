@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { local } from '../helpers';
 import Card_List from '../components/card_list';
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux'
 const { height, width } = Dimensions.get('window')
 
 
@@ -45,7 +47,8 @@ class History extends Component {
   }
 
   render() {
-    const { navigation: { navigate } } = this.props
+    const { navigation: { navigate }, youtubes } = this.props
+    console.log(youtubes)
     return (
       <View style={{ flex: 1 }}>
       <View style={style.container}>
@@ -58,7 +61,7 @@ class History extends Component {
                 renderItem={({ item }, index) =>
                   <TouchableHighlight
                     onPress={() => {
-                      navigate('HistoryDetail', {historyId: item._id});
+                      navigate('HistoryDetail', {historyId: item._id, youtubes: youtubes});
                     }}
                   >
                     <Card_List item={item}></Card_List>
@@ -73,13 +76,13 @@ class History extends Component {
     );
   }
 }
-// const mapStateToProps = (state) => ({
-//   img: state.content.img
-// })
+const mapStateToProps = (state) => ({
+  youtubes: state.content.youtubes
+})
 
-// const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
-export default History;
+export default connect(mapStateToProps, mapDispatchToProps)(History)
 
 const style = StyleSheet.create({
   container: {

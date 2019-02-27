@@ -24,6 +24,8 @@ export default class Detail extends Component {
   
   render() {
     const { navigation } = this.props
+    const videos = navigation.getParam('youtubes')
+    console.log(videos[0], 'ini videos')
     const recommend = navigation.getParam('recommend')
     const owner = navigation.getParam('user')
     return (
@@ -35,7 +37,7 @@ export default class Detail extends Component {
                 <Thumbnail source={{ uri: recommend.userId.avatar }} />
                 <Body>
                   <Text>{recommend.article}</Text>
-                  <Text note>{recommend.createdAt}</Text>
+                  <Text note>{new Date(recommend.createdAt).toDateString()}</Text>
                 </Body>
               </Left>
             </CardItem>
@@ -72,11 +74,12 @@ export default class Detail extends Component {
                   showsHorizontalScrollIndicator={false}
                 >
                   {
-                    this.state.videos.map(p => (
-                      <VideoComponent/>
-                      // <VideoComponent ViedoUri={p.image}
-                      //   Videoname={p.name}
-                      // />
+                    // <VideoComponent/>
+                    videos.map(p => (
+                      <VideoComponent VideoUri={p.id.videoId}
+                        Videoname={p.title}
+                        key={p.id.videoId}
+                      />
                     ))
                   }
                 </ScrollView>

@@ -51,7 +51,8 @@ class DetailDisease extends Component {
     article: '',
     content: '',
     recommendations: [],
-    loading: false
+    loading: false,
+    youtubes: []
 
   };
   componentWillMount() {
@@ -74,7 +75,8 @@ class DetailDisease extends Component {
       }
     })
     this.setState({
-      recommendations: data
+      recommendations: data.recommendation,
+      youtubes: data.youtube
     })
     
   }
@@ -112,6 +114,7 @@ class DetailDisease extends Component {
   }
 
   getRecommendation = async () => {
+    const { navigation } = this.props
     let { data } = await local({
       method: 'GET',
       url: `/recommendations/${navigation.getParam('details')._id}`,
@@ -120,7 +123,8 @@ class DetailDisease extends Component {
       }
     })
     this.setState({
-      recommendations: data
+      recommendations: data.recommendation,
+      youtubes: data.youtube
     })
     
   }
@@ -154,7 +158,7 @@ class DetailDisease extends Component {
 
   render() {
     const { navigation } = this.props
-    const { detail, recommendations, loading } = this.state
+    const { detail, recommendations, loading, youtubes } = this.state
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -195,9 +199,9 @@ class DetailDisease extends Component {
                 >
                  {recommendations.map(val => (
                   <TouchableOpacity key={val._id}
-                  onPress={ () => navigation.navigate('Detail', {recommend: val, user: val.userId.fullname})}>
+                  onPress={ () => navigation.navigate('Detail', {recommend: val, user: val.userId.fullname, youtubes: youtubes})}>
                     <Result imageUri={val.imageUrl}
-                      name={val.content}
+                      name={val.article}
                     />
                   </TouchableOpacity>
                  ))}

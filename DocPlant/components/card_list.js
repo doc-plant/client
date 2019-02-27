@@ -22,7 +22,7 @@ export default class Card_List extends Component {
           <Text>
           </Text>
           <Text>
-           {createdAt.toString()}
+           {new Date(createdAt).toDateString()}
           </Text>
         </View>
       </View>
