@@ -27,6 +27,27 @@ import ApiKeys from '../constants/config';
 import * as firebase from 'firebase';
 const { height, width } = Dimensions.get('window')
 class Home extends Component {
+
+  static navigationOptions = ({ navigation }) => ({
+    title: 'DocPlant',
+    headerStyle: {
+      backgroundColor: 'rgb(59, 133, 5)',
+      borderBottomWidth: 0,
+
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    
+    headerLeft: (
+      <TouchableOpacity
+        style={{ width: 30, color: "#fff", paddingLeft: 10 }}
+        onPress={() => navigation.openDrawer()}>
+        <Icon name={Platform.OS === "ios" ? "ios-menu" : "md-menu"} size={30} style={{ color: "#fff" }} />
+      </TouchableOpacity>
+    ),
+  })
   state = {
     active: 'false',
     userAuth: '',
@@ -49,10 +70,6 @@ class Home extends Component {
     })
   }
 
-  static navigationOptions = {
-    drawerLabel: () => null
-  }
-
   render() {
     const {userAuth, _id, plants} = this.state
     const { navigation: { navigate } } = this.props
@@ -61,7 +78,7 @@ class Home extends Component {
         <ImageBackground source={require('../assets/home_background.png')} style={{ width: '100%', height: '100%' }}>
           <View style={{ flex: 1 }}>
             <ScrollView scrollEventThrottle={16}>
-              <View style={{ flex: 1, paddingTop: 150 }}>
+              <View style={{ flex: 1, paddingTop: 115 }}>
                 <View style={{ marginTop: 10, paddingHorizontal: 20 }}>
                   <Text style={{ fontSize: 35, fontWeight: '700', color: "white" }}>
                     Hello,
@@ -140,4 +157,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   }
-});
+})
